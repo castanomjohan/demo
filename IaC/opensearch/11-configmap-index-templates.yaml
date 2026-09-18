@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opensearch-index-templates
+data:
+  client-control-table-template.json: |
+    {
+      "index_patterns": ["client-control-table*"],
+      "priority": 100,
+      "template": {
+        "settings": {
+          "number_of_shards": 1,
+          "number_of_replicas": 1
+        },
+        "mappings": {
+          "dynamic": true,
+          "dynamic_templates": [
+            {
+              "monthly_workflow_data_blob": {
+                "path_match": "monthly.*.workflows.*.data",
+                "mapping": { "type": "object", "enabled": false }
+              }
+            },
+            {
+              "daily_workflow_data_blob": {
+                "path_match": "daily.*.workflows.*.data",
+                "mapping": { "type": "object", "enabled": false }
+              }
+            },
+            {
+              "top_workflow_data_blob": {
+                "path_match": "workflows.*.data",
+                "mapping": { "type": "object", "enabled": false }
+              }
+            }
+          ],
+          "properties": {
+            "client_id": { "type": "keyword" },
+            "total_interactions": { "type": "long" },
+            "last_interaction_at": { "type": "date" },
+            "last_flow_id": { "type": "keyword" },
+            "last_flow_label": { "type": "keyword" },
+            "updated_at": { "type": "date" },
+            "expires_at": { "type": "date" },
+            "workflows": { "type": "object", "enabled": true },
+            "daily": { "type": "object", "enabled": true },
+            "monthly": { "type": "object", "enabled": true }
+          }
+        }
+      }
+    }

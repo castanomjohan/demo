@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - opensearch/00-serviceaccount.yaml
+  - opensearch/01-rolebinding-anyuid.yaml
+  #- opensearch/02-secret.yaml
+  - opensearch/03-configmap-app.yaml
+  - opensearch/04-pvc.yaml
+  - opensearch/05-deployment-opensearch.yaml
+  - opensearch/06-service-opensearch.yaml
+  - opensearch/07-configmap-dashboards.yaml
+  - opensearch/08-deployment-dashboards.yaml
+  - opensearch/09-service-dashboards.yaml
+  - opensearch/10-route-dashboards.yaml
+ 
+  # CronJob suspendido (boton manual) para limpiar datos de OpenSearch en DEV.
+
+  
