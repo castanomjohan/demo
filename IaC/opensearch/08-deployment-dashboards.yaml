@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: opensearch-dashboards
   labels:
     app.kubernetes.io/part-of: database
 spec:
+  serviceName: opensearch-dashboards
   replicas: 1
   selector:
     matchLabels:
@@ -34,6 +35,7 @@ spec:
                 - ALL
           ports:
             - containerPort: 5601
+              name: http
           env:
             - name: OPENSEARCH_HOSTS
               value: '["https://opensearch.pqr-genai.svc.cluster.local:9200"]'
