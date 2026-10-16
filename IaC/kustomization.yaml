@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - bucket
   - opensearch
+  - role
